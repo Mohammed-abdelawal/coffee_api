@@ -17,7 +17,10 @@ class CoffeeMachine(models.Model):
 
     product_type = models.CharField(choices=TYPE_CHOICES, max_length=3)
     water_line_compatible = models.BooleanField()
+    
+    # not from product schema > i get it from SKU List
     model_type = models.IntegerField(choices=MODEL_CHOICES)
+    
     sku = models.CharField(editable=False, max_length=5, blank=True)
 
     def save(self, *args, **kwargs):
@@ -55,7 +58,8 @@ class CoffeePod(models.Model):
                            blank=True, max_length=5)
 
     def save(self, *args, **kwargs):
-        _sku = self.product_type +str(self.coffee_flavor) + str(self.pack_size)
+        _sku = self.product_type + \
+            str(self.coffee_flavor) + str(self.pack_size)
         self.sku = _sku
 
         super(CoffeePod, self).save(*args, **kwargs)
